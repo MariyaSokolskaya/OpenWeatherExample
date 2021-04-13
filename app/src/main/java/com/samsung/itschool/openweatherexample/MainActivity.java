@@ -91,14 +91,15 @@ public class MainActivity extends AppCompatActivity {
             if(response != null) {
                 try {
                     //String rez = response.body().string();
-                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    JSONObject main = jsonObject.getJSONObject("main");
+                    JSONObject mainJson = new JSONObject(response.body().string());
+                    JSONObject main = mainJson.getJSONObject("main");
                     tempText.setText(Double.toString(main.getDouble("temp")));
-                    JSONObject wind = jsonObject.getJSONObject("wind");
-                    windText.setText(wind.toString());
                     pressText.setText(Integer.toString(main.getInt("pressure")));
-                    JSONArray weather = jsonObject.getJSONArray("weather");
-                    discribText.setText(weather.getJSONObject(0).getString("description"));
+                    JSONObject wind = mainJson.getJSONObject("wind");
+                    windText.setText(wind.toString());
+                    JSONArray weather = mainJson.getJSONArray("weather");
+                    JSONObject descr = weather.getJSONObject(0);
+                    discribText.setText(descr.getString("description"));
                 }catch (JSONException e){
                     e.printStackTrace();
                 }catch (IOException e) {
